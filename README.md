@@ -1,7 +1,14 @@
 
-# Aggregate Functions with SQL
+# Grouping Data with SQL
+
+## Introduction
+
+In this section, you'll learn how to use aggregate functions in SQL.
 
 ## Objectives
+
+You will be able to:
+
 * Write queries with aggregate functions like `COUNT`, `MAX`, `MIN`, and `SUM`
 * Create an alias for the return value of an aggregate function
 * Use `GROUP BY` to sort the data sets returned by aggregate functions
@@ -13,10 +20,10 @@ import sqlite3
 import pandas as pd
 ```
 
-# Database Schema
-<img src="Database-Schema.png">
+## Database Schema
+<img src="database-schema.png">
 
-# Connecting to the database
+## Connecting to the Database
 
 
 ```python
@@ -24,7 +31,7 @@ conn = sqlite3.Connection('data.sqlite')
 cur = conn.cursor()
 ```
 
-# Groupby and Aggregate Functions
+## Groupby and Aggregate Functions
 
 Lets start by looking at some groupby statements to aggregate our data.
 
@@ -44,17 +51,17 @@ pd.DataFrame(cur.fetchall())
 
 
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -107,7 +114,7 @@ pd.DataFrame(cur.fetchall())
 
 
 
-# Ordering and Aliasing
+## Ordering and Aliasing
 We can also alias our groupby by specifying the number of our selection order that we want to group by. Additionally, we can also order or limit our selection with the order by and limit clauses.
 
 
@@ -127,17 +134,17 @@ pd.DataFrame(cur.fetchall())
 
 
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -180,7 +187,7 @@ pd.DataFrame(cur.fetchall())
 
 
 
-# Retrieving Column Names
+## Retrieving Column Names
 Recall that we can also retrieve our column names when using sqlite3 (note that this will be the default behavior in other environments such as sql workbench)
 
 
@@ -202,17 +209,17 @@ df.head()
 
 
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -255,7 +262,7 @@ df.head()
 
 
 
-# Aliasing our Aggregate Function Name
+## Aliasing our Aggregate Function Name
 Now that we can view our column names, we can also practice using alias's to name our aggregations.
 
 
@@ -277,17 +284,17 @@ df.head()
 
 
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -330,7 +337,7 @@ df.head()
 
 
 
-# Other Aggregations
+## Other Aggregations
 
 Aside from count() some other useful aggregations include:
     * min()
@@ -364,17 +371,17 @@ df.head()
 
 
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -450,17 +457,17 @@ df.tail()
 
 
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -527,7 +534,7 @@ df.tail()
 
 
 
-# The having clause
+## The having clause
 
 Finally, we can also filter our aggregated views with the having clause. The having clause works like the where clause but is used to filter data selections on conditions post the group by. For example, if we wanted to filter based on a customer's last name, we would use the where clause. However, if we wanted to filter a list of city's with at least 5 customers, we would using the having clause; we would first groupby city and count the number of customers, and the having clause allows us to pass conditions on the result of this aggregation.
 
@@ -551,17 +558,17 @@ df.head()
 
 
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -589,7 +596,7 @@ df.head()
 
 
 
-# Combining the where and having clause
+## Combining the where and having clause
 We can also use jthe where and having clause in conjunction with each other for more complex rules.
 For example, let's say we want a list of customers who have made at least 3 purchases of over 50K each.
 
@@ -617,17 +624,17 @@ df.head()
 
 
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -679,17 +686,17 @@ df.tail()
 
 
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -732,6 +739,6 @@ df.tail()
 
 
 
-# Summary
+## Summary
 
-In this readme, you should have a good idea of how to use aggregate functions, aliases and the having clause to filter selections.
+After this section, you should have a good idea of how to use aggregate functions, aliases and the having clause to filter selections.
