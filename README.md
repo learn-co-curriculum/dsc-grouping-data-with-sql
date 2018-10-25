@@ -597,7 +597,7 @@ df.head()
 
 
 ## Combining the where and having clause
-We can also use jthe where and having clause in conjunction with each other for more complex rules.
+We can also use the where and having clause in conjunction with each other for more complex rules.
 For example, let's say we want a list of customers who have made at least 3 purchases of over 50K each.
 
 
