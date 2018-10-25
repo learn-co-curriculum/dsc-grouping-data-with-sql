@@ -21,7 +21,7 @@ import pandas as pd
 ```
 
 ## Database Schema
-<img src="database-schema.png">
+<img src="Database-Schema.png">
 
 ## Connecting to the Database
 
