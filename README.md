@@ -3,7 +3,7 @@
 
 ## Introduction
 
-In this section, you'll learn how to use aggregate functions in SQL.
+Just as with Pandas, another very useful manipulation in SQL is aggregate functions. For example, you may wish to find the mean, median, min or max of a column feature. For example, in the customer relational database that you've been working with, you may wonder if there are differences in overall sales across offices or regions.
 
 ## Objectives
 
@@ -14,16 +14,18 @@ You will be able to:
 * Use `GROUP BY` to sort the data sets returned by aggregate functions
 * Compare aggregates using the `HAVING` clause
 
+## Database Schema
+<img src="Database-Schema.png">
+
 
 ```python
 import sqlite3
 import pandas as pd
 ```
 
-## Database Schema
-<img src="Database-Schema.png">
-
 ## Connecting to the Database
+
+As usual, start by creating a connection to the database.
 
 
 ```python
@@ -43,165 +45,10 @@ cur.execute("""select city,
                       from offices
                       join employees
                       using(officeCode)
-                      group by city;""")
-pd.DataFrame(cur.fetchall())
-```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>0</th>
-      <th>1</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Boston</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>London</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>NYC</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Paris</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>San Francisco</td>
-      <td>6</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Sydney</td>
-      <td>4</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>Tokyo</td>
-      <td>2</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-## Ordering and Aliasing
-We can also alias our groupby by specifying the number of our selection order that we want to group by. Additionally, we can also order or limit our selection with the order by and limit clauses.
-
-
-```python
-cur.execute("""select city,
-                      count(employeeNumber)
-                      from offices
-                      join employees
-                      using(officeCode)
-                      group by 1
-                      order by count(employeeNumber) desc
-                      limit 5;""")
-pd.DataFrame(cur.fetchall())
-```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>0</th>
-      <th>1</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>San Francisco</td>
-      <td>6</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Paris</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Sydney</td>
-      <td>4</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Boston</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>London</td>
-      <td>2</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-## Retrieving Column Names
-Recall that we can also retrieve our column names when using sqlite3 (note that this will be the default behavior in other environments such as sql workbench)
-
-
-```python
-cur.execute("""select city,
-                      count(employeeNumber)
-                      from offices
-                      join employees
-                      using(officeCode)
-                      group by 1
-                      order by count(employeeNumber) desc
-                      limit 5;""")
+                      group by city
+                      order by count(employeeNumber) desc;""")
 df = pd.DataFrame(cur.fetchall())
-df. columns = [i[0] for i in cur.description]
+df.columns = [x[0] for x in cur.description]
 df.head()
 ```
 
@@ -262,21 +109,22 @@ df.head()
 
 
 
-## Aliasing our Aggregate Function Name
-Now that we can view our column names, we can also practice using alias's to name our aggregations.
+## Aliasing
+You can also alias our groupby by specifying the number of our selection order that we want to group by. This is simply written as `group by 1` 1 referring to the first column name that we are selecting.
+
+Additionally, we can also rename our aggregate to a more descriptive name using the `as` clause.
 
 
 ```python
 cur.execute("""select city,
-                      count(employeeNumber) as employeeCount
+                      count(employeeNumber) as numEmployees
                       from offices
                       join employees
                       using(officeCode)
                       group by 1
-                      order by count(employeeNumber) desc
-                      limit 5;""")
+                      order by numEmployees desc;""")
 df = pd.DataFrame(cur.fetchall())
-df. columns = [i[0] for i in cur.description]
+df.columns = [x[0] for x in cur.description]
 df.head()
 ```
 
@@ -302,7 +150,7 @@ df.head()
     <tr style="text-align: right;">
       <th></th>
       <th>city</th>
-      <th>employeeCount</th>
+      <th>numEmployees</th>
     </tr>
   </thead>
   <tbody>
