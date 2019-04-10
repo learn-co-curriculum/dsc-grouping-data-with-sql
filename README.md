@@ -15,7 +15,7 @@ You will be able to:
 * Compare aggregates using the `HAVING` clause
 
 ## Database Schema
-<img src="Database-Schema.png">
+<img src="images/Database-Schema.png">
 
 
 ```python
