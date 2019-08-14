@@ -3,7 +3,7 @@
 
 ## Introduction
 
-Just as with Pandas, another very useful manipulation in SQL is aggregate functions. For example, you may wish to find the mean, median, min or max of a column feature. For example, in the customer relational database that you've been working with, you may wonder if there are differences in overall sales across offices or regions.
+Just as with Pandas, we can use aggregate functions in SQL to assist with data manipulation. Sometimes you may wish to find the mean, median, min, or max of a column feature. For example, there could be a customer relational database that you've been working with and you may wonder if there are differences in overall sales across offices or regions.
 
 ## Objectives
 
@@ -25,7 +25,7 @@ import pandas as pd
 
 ## Connecting to the Database
 
-As usual, start by creating a connection to the database.
+As usual, start by creating a connection to the database and instantiating a cursor object.
 
 
 ```python
@@ -33,20 +33,21 @@ conn = sqlite3.Connection('data.sqlite')
 cur = conn.cursor()
 ```
 
-## Groupby and Aggregate Functions
+## `GROUP BY` and Aggregate Functions
 
-Lets start by looking at some groupby statements to aggregate our data.
+Lets start by looking at some `GROUP BY` statements to aggregate our data. The `GROUP BY` clause groups records into summary rows and returns one records for each group.
+Typically, `GROUP BY`  also involves an aggregate function (`COUNT`, `AVG`, etc.). Lastly, `GROUP BY` can group by one or more columns.
+
+In the cell below, we'll join the offices and employees tables in order to count the number of employees per city.
 
 
 ```python
-#Here we join the offices and employees tables in order to count the number of employees per city.
-cur.execute("""select city,
-                      count(employeeNumber)
-                      from offices
-                      join employees
-                      using(officeCode)
-                      group by city
-                      order by count(employeeNumber) desc;""")
+cur.execute("""SELECT city, COUNT(employeeNumber)
+                      FROM offices
+                      JOIN employees
+                      USING(officeCode)
+                      GROUP BY city
+                      ORDER BY count(employeeNumber) DESC;""")
 df = pd.DataFrame(cur.fetchall())
 df.columns = [x[0] for x in cur.description]
 df.head()
@@ -74,7 +75,7 @@ df.head()
     <tr style="text-align: right;">
       <th></th>
       <th>city</th>
-      <th>count(employeeNumber)</th>
+      <th>COUNT(employeeNumber)</th>
     </tr>
   </thead>
   <tbody>
@@ -110,19 +111,23 @@ df.head()
 
 
 ## Aliasing
-You can also alias our groupby by specifying the number of our selection order that we want to group by. This is simply written as `group by 1` 1 referring to the first column name that we are selecting.
 
-Additionally, we can also rename our aggregate to a more descriptive name using the `as` clause.
+An Alias is a shorthand for a table or column name. Aliases reduce the amount of typing required to enter a query. Generally, complex queries with aliases are easier to read.
+Aliases are useful with `JOIN`, `GROUP BY`, and aggregates (`SUM`, `COUNT`, etc.).
+An Alias only exists for the duration of the query.
+
+You can alias your `GROUP BY` by specifying the index of our selection order that we want to group by. This is simply written as `GROUP BY 1`, with the number "1" referring to the first column name that we are selecting.
+
+Additionally, we can also rename our aggregate to a more descriptive name using the `AS` clause.
 
 
 ```python
-cur.execute("""select city,
-                      count(employeeNumber) as numEmployees
-                      from offices
-                      join employees
-                      using(officeCode)
-                      group by 1
-                      order by numEmployees desc;""")
+cur.execute("""SELECT city, COUNT(employeeNumber) AS numEmployees
+               FROM offices
+               JOIN employees
+               USING(officeCode)
+               GROUP BY 1
+               ORDER BY numEmployees DESC;""")
 df = pd.DataFrame(cur.fetchall())
 df.columns = [x[0] for x in cur.description]
 df.head()
@@ -187,25 +192,25 @@ df.head()
 
 ## Other Aggregations
 
-Aside from count() some other useful aggregations include:
-    * min()
-    * max()
-    * sum()
-    * avg()
+Aside from `COUNT()` some other useful aggregations include:
+- `MIN()`
+- `MAX()`
+- `SUM()`
+- `AVG()`
 
 
 ```python
-cur.execute("""select customerName,
-                      count(*) as number_purchases,
-                      min(amount) as min_purchase,
-                      max(amount) as max_purchase,
-                      avg(amount) as avg_purchase,
-                      sum(amount) as total_spent
-                      from customers
-                      join payments
-                      using(customerNumber)
-                      group by 1
-                      order by sum(amount) desc;""")
+cur.execute("""SELECT customerName,
+               COUNT(customerName) AS number_purchases,
+               MIN(amount) AS min_purchase,
+               MAX(amount) AS max_purchase,
+               AVG(amount) AS avg_purchase,
+               SUM(amount) AS total_spent
+               FROM customers
+               JOIN payments
+               USING(customerNumber)
+               GROUP BY 1
+               ORDER BY SUM(amount) DESC;""")
 df = pd.DataFrame(cur.fetchall())
 df. columns = [i[0] for i in cur.description]
 print(len(df))
@@ -382,17 +387,16 @@ df.tail()
 
 
 
-## The having clause
+## The `HAVING` clause
 
-Finally, we can also filter our aggregated views with the having clause. The having clause works like the where clause but is used to filter data selections on conditions post the group by. For example, if we wanted to filter based on a customer's last name, we would use the where clause. However, if we wanted to filter a list of city's with at least 5 customers, we would using the having clause; we would first groupby city and count the number of customers, and the having clause allows us to pass conditions on the result of this aggregation.
+Finally, we can also filter our aggregated views with the `HAVING` clause. The `HAVING` clause works similarly to the `WHERE` clause, except it is used to filter data selections on conditions **after** the `GROUP BY` clause. For example, if we wanted to filter based on a customer's last name, we would use the `WHERE` clause. However, if we wanted to filter a list of cities with at least 5 customers, we would using the `HAVING` clause. First, we would `GROUP BY` city and then use the `HAVING` clause, which will allow us to pass conditions on the result of this aggregation.
 
 
 ```python
-cur.execute("""select city,
-                      count(customerNumber) as number_customers
-                      from customers
-                      group by 1
-                      having count(customerNumber)>=5;""")
+cur.execute("""SELECT city, COUNT(customerNumber) AS number_customers
+               FROM customers
+               GROUP BY 1
+               HAVING COUNT(customerNumber)>=5;""")
 df = pd.DataFrame(cur.fetchall())
 df. columns = [i[0] for i in cur.description]
 print(len(df))
@@ -444,21 +448,21 @@ df.head()
 
 
 
-## Combining the where and having clause
-We can also use the where and having clause in conjunction with each other for more complex rules.
+## Combining the `WHERE` and `HAVING` clause
+We can also use the `WHERE` and `HAVING` clauses in conjunction with each other for more complex rules.
 For example, let's say we want a list of customers who have made at least 3 purchases of over 50K each.
 
 
 ```python
-cur.execute("""select customerName,
-                      count(amount) as number_purchases_over_50K
-                      from customers
-                      join payments
-                      using(customerNumber)
-                      where amount >= 50000
-                      group by 1
-                      having count(amount) >= 3
-                      order by count(amount) desc;""")
+cur.execute("""SELECT customerName,
+               COUNT(amount) AS number_purchases_over_50K
+               FROM customers
+               JOIN payments
+               USING(customerNumber)
+               WHERE amount >= 50000
+               GROUP BY 1
+               HAVING count(amount) >= 3
+               ORDER BY count(amount) DESC;""")
 df = pd.DataFrame(cur.fetchall())
 df. columns = [i[0] for i in cur.description]
 print(len(df))
