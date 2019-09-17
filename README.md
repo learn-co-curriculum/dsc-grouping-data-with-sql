@@ -35,7 +35,7 @@ cur = conn.cursor()
 
 ## `GROUP BY` and Aggregate Functions
 
-Lets start by looking at some `GROUP BY` statements to aggregate our data. The `GROUP BY` clause groups records into summary rows and returns one records for each group.
+Let's start by looking at some `GROUP BY` statements to aggregate our data. The `GROUP BY` clause groups records into summary rows and returns one record for each group.
 Typically, `GROUP BY`  also involves an aggregate function (`COUNT`, `AVG`, etc.). Lastly, `GROUP BY` can group by one or more columns.
 
 In the cell below, we'll join the offices and employees tables in order to count the number of employees per city.
@@ -389,7 +389,7 @@ df.tail()
 
 ## The `HAVING` clause
 
-Finally, we can also filter our aggregated views with the `HAVING` clause. The `HAVING` clause works similarly to the `WHERE` clause, except it is used to filter data selections on conditions **after** the `GROUP BY` clause. For example, if we wanted to filter based on a customer's last name, we would use the `WHERE` clause. However, if we wanted to filter a list of cities with at least 5 customers, we would using the `HAVING` clause. First, we would `GROUP BY` city and then use the `HAVING` clause, which will allow us to pass conditions on the result of this aggregation.
+Finally, we can also filter our aggregated views with the `HAVING` clause. The `HAVING` clause works similarly to the `WHERE` clause, except it is used to filter data selections on conditions **after** the `GROUP BY` clause. For example, if we wanted to filter based on a customer's last name, we would use the `WHERE` clause. However, if we wanted to filter a list of cities with at least 5 customers, we would use the `HAVING` clause. First, we would `GROUP BY` city and then use the `HAVING` clause, which will allow us to pass conditions on the result of this aggregation.
 
 
 ```python
