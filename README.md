@@ -593,4 +593,4 @@ df.tail()
 
 ## Summary
 
-After this section, you should have a good idea of how to use aggregate functions, aliases and the having clause to filter selections.
+After this section, you should have a good idea of how to use aggregate functions, aliases, and the having clause to filter selections.
