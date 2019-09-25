@@ -9,10 +9,10 @@ Just as with Pandas, we can use aggregate functions in SQL to assist with data m
 
 You will be able to:
 
-* Write queries with aggregate functions like `COUNT`, `MAX`, `MIN`, and `SUM`
-* Create an alias for the return value of an aggregate function
-* Use `GROUP BY` to sort the data sets returned by aggregate functions
-* Compare aggregates using the `HAVING` clause
+- Write queries with aggregate functions like `COUNT`, `MAX`, `MIN`, and `SUM`
+- Create an alias for the return value of an aggregate function
+- Use `GROUP BY` to sort the data sets returned by aggregate functions
+- Compare aggregates using the `HAVING` clause
 
 ## Database Schema
 <img src="images/Database-Schema.png">
