@@ -9,10 +9,11 @@ Just as with Pandas, we can use aggregate functions in SQL to assist with data m
 
 You will be able to:
 
-- Write queries with aggregate functions like `COUNT`, `MAX`, `MIN`, and `SUM`
-- Create an alias for the return value of an aggregate function
-- Use `GROUP BY` to sort the data sets returned by aggregate functions
-- Compare aggregates using the `HAVING` clause
+* Describe the relationship between aggregate functions and `GROUP BY` statements
+* Use `GROUP BY` statements in SQL to apply aggregate functions like: `COUNT`, `MAX`, `MIN`, and `SUM`
+* Create an alias in a SQL query
+* Use the `HAVING` clause to compare different aggregates
+* Compare the difference between the `WHERE` and `HAVING` clause
 
 ## Database Schema
 <img src="images/Database-Schema.png">
@@ -593,4 +594,4 @@ df.tail()
 
 ## Summary
 
-After this section, you should have a good idea of how to use aggregate functions, aliases, and the having clause to filter selections.
+In this lesson, you learned how to use aggregate functions, aliases, and the `HAVING` clause to filter selections.
