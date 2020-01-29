@@ -210,7 +210,7 @@ cur.execute("""SELECT customerName,
                FROM customers
                JOIN payments
                USING(customerNumber)
-               GROUP BY 1
+               GROUP BY customerName
                ORDER BY SUM(amount) DESC;""")
 df = pd.DataFrame(cur.fetchall())
 df. columns = [i[0] for i in cur.description]
@@ -255,8 +255,8 @@ df.head()
       <th>0</th>
       <td>Euro+ Shopping Channel</td>
       <td>13</td>
-      <td>116208.40</td>
-      <td>65071.26</td>
+      <td>20009.53</td>
+      <td>120166.58</td>
       <td>55056.844615</td>
       <td>715738.98</td>
     </tr>
@@ -264,8 +264,8 @@ df.head()
       <th>1</th>
       <td>Mini Gifts Distributors Ltd.</td>
       <td>9</td>
-      <td>101244.59</td>
-      <td>85410.87</td>
+      <td>11044.30</td>
+      <td>111654.40</td>
       <td>64909.804444</td>
       <td>584188.24</td>
     </tr>
@@ -273,7 +273,7 @@ df.head()
       <th>2</th>
       <td>Australian Collectors, Co.</td>
       <td>4</td>
-      <td>44894.74</td>
+      <td>7565.08</td>
       <td>82261.22</td>
       <td>45146.267500</td>
       <td>180585.07</td>
@@ -291,8 +291,8 @@ df.head()
       <th>4</th>
       <td>Dragon Souveniers, Ltd.</td>
       <td>4</td>
+      <td>2611.84</td>
       <td>105743.00</td>
-      <td>44380.15</td>
       <td>39062.757500</td>
       <td>156251.03</td>
     </tr>
@@ -342,7 +342,7 @@ df.tail()
       <td>Royale Belge</td>
       <td>4</td>
       <td>1128.20</td>
-      <td>1627.56</td>
+      <td>14379.90</td>
       <td>7304.295000</td>
       <td>29217.18</td>
     </tr>
@@ -350,8 +350,8 @@ df.tail()
       <th>94</th>
       <td>Frau da Collezione</td>
       <td>2</td>
-      <td>17746.26</td>
       <td>7612.06</td>
+      <td>17746.26</td>
       <td>12679.160000</td>
       <td>25358.32</td>
     </tr>
@@ -359,8 +359,8 @@ df.tail()
       <th>95</th>
       <td>Atelier graphique</td>
       <td>3</td>
+      <td>1676.14</td>
       <td>14571.44</td>
-      <td>6066.78</td>
       <td>7438.120000</td>
       <td>22314.36</td>
     </tr>
@@ -451,7 +451,7 @@ df.head()
 
 ## Combining the `WHERE` and `HAVING` clause
 We can also use the `WHERE` and `HAVING` clauses in conjunction with each other for more complex rules.
-For example, let's say we want a list of customers who have made at least 3 purchases of over 50K each.
+For example, let's say we want a list of customers who have made at least 2 purchases of over 50K each.
 
 
 ```python
@@ -461,8 +461,8 @@ cur.execute("""SELECT customerName,
                JOIN payments
                USING(customerNumber)
                WHERE amount >= 50000
-               GROUP BY 1
-               HAVING count(amount) >= 3
+               GROUP BY customerName
+               HAVING count(amount) >= 2
                ORDER BY count(amount) DESC;""")
 df = pd.DataFrame(cur.fetchall())
 df. columns = [i[0] for i in cur.description]
@@ -470,7 +470,7 @@ print(len(df))
 df.head()
 ```
 
-    53
+    4
 
 
 
@@ -502,89 +502,22 @@ df.head()
     <tr>
       <th>0</th>
       <td>Euro+ Shopping Channel</td>
-      <td>13</td>
+      <td>5</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Mini Gifts Distributors Ltd.</td>
-      <td>9</td>
+      <td>5</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Anna's Decorations, Ltd</td>
-      <td>4</td>
+      <td>Muscle Machine Inc</td>
+      <td>2</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Australian Collectors, Co.</td>
-      <td>4</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Baane Mini Imports</td>
-      <td>4</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-
-```python
-df.tail()
-```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>customerName</th>
-      <th>number_purchases_over_50K</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>48</th>
-      <td>Stylish Desk Decors, Co.</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>49</th>
-      <td>Suominen Souveniers</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>50</th>
-      <td>Toys of Finland, Co.</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>51</th>
-      <td>Toys4GrownUps.com</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>52</th>
-      <td>Vitachrome Inc.</td>
-      <td>3</td>
+      <td>Online Diecast Creations Co.</td>
+      <td>2</td>
     </tr>
   </tbody>
 </table>
