@@ -18,7 +18,7 @@ You will be able to:
 
 Once again we will be using this database, with 8 tables relating to customers, orders, employees, etc.
 
-<img src="images/Database-Schema.png">
+<img src="https://curriculum-content.s3.amazonaws.com/data-science/images/Database-Schema.png">
 
 ## Connecting to the Database
 
